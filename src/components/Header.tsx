@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   return (
       <Wrapper>
         <WrapperCenter>
-          {width! >= sizes.phone * 16 && (
+          {(width! >= sizes.phone * 16 || window.location.pathname === RouteModel.HOME) && (
               <Link to={RouteModel.HOME}>
                 <Title>gradient generator</Title>
               </Link>
