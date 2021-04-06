@@ -2,20 +2,48 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import GlobalStyles from './styles/GlobalStyles';
+import { useManagementContext } from './contexts/management.context';
+import { useFunctionalContext } from './contexts/functional.context';
 
-// Todo: configure light and dark theme
-// Todo: configure routes
+import Header from './components/Header';
+import Home from './components/Home';
+import GradientBox from './components/GradientBox';
+import AnglePopup from './components/AnglePopup';
+import CodeCopiedPopup from './components/CodeCopiedPopup';
+import HintPopup from './components/HintPopup';
+import LimitColorsPopup from './components/LimitColorsPopup';
+import LengthPopup from './components/LengthPopup';
+import PositionPopup from './components/PositionPopup';
+
 const App = () => {
+  const {
+    limitColors,
+    alertCodeCopied,
+    isShowAngle,
+    isShowPosition,
+    isShowLength,
+    isShowHint,
+  } = useFunctionalContext();
+  const { theme } = useManagementContext();
+
   return (
-      <ThemeProvider theme={'theme'}>
+      <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Router>
           <Switch>
-            <Route path={'/'}>
-              <h1>home</h1>
-            </Route>
             <Route path={'/gradient-generator'}>
-              <h1>gradient generator</h1>
+              <Header />
+              <GradientBox />
+              {isShowHint && <HintPopup />}
+              {limitColors && <LimitColorsPopup />}
+              {alertCodeCopied && <CodeCopiedPopup />}
+              {isShowLength && <LengthPopup />}
+              {isShowPosition && <PositionPopup />}
+              {isShowAngle && <AnglePopup />}
+            </Route>
+            <Route path={'/'}>
+              <Header />
+              <Home />
             </Route>
             <Route path='*'>
               <h1>other</h1>

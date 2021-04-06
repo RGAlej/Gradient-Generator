@@ -25,7 +25,7 @@ const GlobalStyles = createGlobalStyle`
     ${media.tablet_port`
       font-size: 50%;
     `}
-    
+
     ${media.phone`
       font-size: 40%;
     `}

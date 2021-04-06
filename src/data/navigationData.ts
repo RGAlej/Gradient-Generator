@@ -1,13 +1,13 @@
 import { IconType } from 'react-icons';
 import {
-  HiChartPie,
-  HiColorSwatch,
-  HiPlusCircle,
   HiChartBar,
-  HiLocationMarker,
-  HiSupport,
+  HiChartPie,
+  HiClipboardCopy,
   HiDotsHorizontal,
-  HiInformationCircle
+  HiInformationCircle,
+  HiLocationMarker,
+  HiPlusCircle,
+  HiSupport
 } from 'react-icons/hi';
 
 export enum NavDataIdType {
@@ -46,16 +46,16 @@ export const navData: NavDataInterface[] = [
   {
     id: NavDataIdType.ANGLE,
     icon: HiChartPie,
-    name: 'modify the angle'
+    name: 'modify angle'
   },
   {
     id: NavDataIdType.LENGTH,
     icon: HiChartBar,
-    name: 'modify the length of each color'
+    name: 'modify length of each color'
   },
   {
     id: NavDataIdType.COPY,
-    icon: HiColorSwatch,
+    icon: HiClipboardCopy,
     name: 'copy code'
   },
   {

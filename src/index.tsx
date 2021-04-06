@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { FunctionalContextProvider } from './contexts/functional.context';
+import { ManagementContextProvider } from './contexts/management.context';
 
-// Todo: add providers
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+      <FunctionalContextProvider>
+        <ManagementContextProvider>
+          <App />
+        </ManagementContextProvider>
+      </FunctionalContextProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

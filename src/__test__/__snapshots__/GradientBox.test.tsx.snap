@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Box element check if change color works 1`] = `
+<input
+  class="sc-gsDJrp ilSAUG"
+  data-testid="color"
+  type="color"
+  value="#A1FFCE"
+/>
+`;
+
+exports[`Box element check if change color works 2`] = `
+<textarea
+  readonly=""
+>
+  linear-gradient(60deg, #A1FFCE, #FAFFD1);
+</textarea>
+`;
+
+exports[`Box element check if change color works 3`] = `
+<input
+  class="sc-gsDJrp ilSAUG"
+  data-testid="color"
+  type="color"
+  value="#ffffff"
+/>
+`;
+
+exports[`Box element check if change color works 4`] = `
+<textarea
+  readonly=""
+>
+  linear-gradient(60deg, #FFFFFF, #FAFFD1);
+</textarea>
+`;
