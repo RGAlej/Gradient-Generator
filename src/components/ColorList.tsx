@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { setBorder, setFlex } from '../styles/styles';
+import { setBorder, setColor, setFlex, setTransition } from '../styles/styles';
 import { useFunctionalContext } from '../contexts/functional.context';
 
 const ColorList: React.FC = () => {
@@ -9,7 +9,8 @@ const ColorList: React.FC = () => {
     removeColor,
     changeColor,
     dragStartHandler,
-    dragEndHandler
+    dragEndHandler,
+    touchMoveHandler,
   } = useFunctionalContext();
 
   return (
@@ -24,6 +25,7 @@ const ColorList: React.FC = () => {
           onChange={(e) => changeColor!(e.target.value, index)}
           onDragStart={(e) => dragStartHandler!(e, index)}
           onDragEnd={dragEndHandler}
+          onTouchMove={(e) => touchMoveHandler!(e, index)}
           data-testid='color'
         />
       ))}
@@ -37,6 +39,11 @@ const Colors = styled.div`
   flex-wrap: wrap;
   width: 75%;
   padding: 2rem;
+
+  .removing {
+    ${setBorder({ color: setColor.roseColor, style: 'solid' })};
+    opacity: 0.3;
+  }
 `;
 
 const InputColor = styled.input`
@@ -47,6 +54,7 @@ const InputColor = styled.input`
   height: 4rem;
   margin: 1rem 2rem;
   ${setBorder({ style: 'none' })};
+  ${setTransition()};
 
   &::-webkit-color-swatch-wrapper {
     padding: 0;

@@ -18,14 +18,21 @@ interface initialFunctionalState {
 interface basicFunctionality {
   gradient?: string;
   showTrash?: boolean;
-  dragStartHandler?: (event: React.DragEvent<HTMLInputElement>, index: number) => void;
+  handleNavActions?: (type: NavDataIdType) => void;
+  changeColor?: (value: string, index: number) => void;
+  removeColor?: (index: number) => void;
+}
+
+interface dragAndTouchEvents {
+  dragStartHandler?: (
+    event: React.DragEvent<HTMLInputElement>,
+    index: number
+  ) => void;
   dragOverHandler?: (event: React.DragEvent<SVGElement>) => void;
   dragLeaveHandler?: (event: React.DragEvent<SVGElement>) => void;
   dragEndHandler?: () => void;
   dropHandler?: (event: React.DragEvent<SVGElement>) => void;
-  handleNavActions?: (type: NavDataIdType) => void;
-  changeColor?: (value: string, index: number) => void;
-  removeColor?: (index: number) => void;
+  touchMoveHandler?: (event: React.TouchEvent<HTMLElement>, index: number) => void;
 }
 
 interface booleansToDisplayPopups {
@@ -52,5 +59,6 @@ interface functionsOfFunctionalState {
 export interface FunctionalStateModel
   extends initialFunctionalState,
     basicFunctionality,
+    dragAndTouchEvents,
     booleansToDisplayPopups,
     functionsOfFunctionalState {}

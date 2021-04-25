@@ -2,7 +2,7 @@
 
 exports[`Box element check if change color works 1`] = `
 <input
-  class="sc-gsDJrp cAoqju"
+  class="sc-gsDJrp nArmT"
   data-testid="color"
   draggable="false"
   type="color"
@@ -20,7 +20,7 @@ exports[`Box element check if change color works 2`] = `
 
 exports[`Box element check if change color works 3`] = `
 <input
-  class="sc-gsDJrp cAoqju"
+  class="sc-gsDJrp nArmT"
   data-testid="color"
   draggable="false"
   type="color"

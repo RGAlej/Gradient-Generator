@@ -101,6 +101,31 @@ describe('App functionality', () => {
     expect(color1).toHaveAttribute('draggable', 'true');
   });
 
+  test('check if touch move event works to remove color', async () => {
+    renderWithRouter(<App />, { route: RouteModel.GRADIENT });
+    // make sure that navigation4 is the add color button
+    const navigation = screen.getAllByRole('listitem');
+    const addColorBtn = navigation[4];
+    userEvent.hover(addColorBtn);
+    const addColorTooltip = await screen.findByRole('complementary');
+    expect(addColorTooltip).toHaveTextContent('add color');
+
+    // add color
+    userEvent.click(addColorBtn);
+    const colorList = screen.getAllByTestId('color');
+    expect(colorList).toHaveLength(3);
+    const color3 = colorList[2];
+
+    fireEvent.touchMove(color3);
+    expect(color3).toHaveClass('removing');
+    await waitFor(() => expect(color3).not.toBeInTheDocument(), {
+      timeout: 1000,
+    });
+
+    const colorListUpdated = screen.getAllByTestId('color');
+    expect(colorListUpdated).toHaveLength(2);
+  });
+
   test('check angle input functionality', async () => {
     renderWithRouter(<App />, { route: RouteModel.GRADIENT });
 
