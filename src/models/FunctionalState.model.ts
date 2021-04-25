@@ -1,5 +1,5 @@
 import { NavDataIdType } from '../data/navigationData';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { SetStateAction } from 'react';
 
 interface ColorModel {
   color: string;
@@ -17,6 +17,12 @@ interface initialFunctionalState {
 
 interface basicFunctionality {
   gradient?: string;
+  showTrash?: boolean;
+  dragStartHandler?: (event: React.DragEvent<HTMLInputElement>, index: number) => void;
+  dragOverHandler?: (event: React.DragEvent<SVGElement>) => void;
+  dragLeaveHandler?: (event: React.DragEvent<SVGElement>) => void;
+  dragEndHandler?: () => void;
+  dropHandler?: (event: React.DragEvent<SVGElement>) => void;
   handleNavActions?: (type: NavDataIdType) => void;
   changeColor?: (value: string, index: number) => void;
   removeColor?: (index: number) => void;
@@ -24,7 +30,7 @@ interface basicFunctionality {
 
 interface booleansToDisplayPopups {
   limitColors?: boolean;
-  setLimitColors?: Dispatch<SetStateAction<boolean>>;
+  setLimitColors?: React.Dispatch<SetStateAction<boolean>>;
   alertCodeCopied?: boolean;
   isShowAngle?: boolean;
   isShowHint?: boolean;
@@ -36,7 +42,15 @@ interface functionsOfFunctionalState {
   codeToCopy?: React.RefObject<HTMLTextAreaElement>;
   changeAngle?: (angle: number) => void;
   changePosition?: (p_x: string, p_y: string, l_x: string, l_y: string) => void;
-  handlePercentValues?: (index: number, position: string, value: string) => void;
+  handlePercentValues?: (
+    index: number,
+    position: string,
+    value: string
+  ) => void;
 }
 
-export interface FunctionalStateModel extends initialFunctionalState, basicFunctionality, booleansToDisplayPopups, functionsOfFunctionalState {}
+export interface FunctionalStateModel
+  extends initialFunctionalState,
+    basicFunctionality,
+    booleansToDisplayPopups,
+    functionsOfFunctionalState {}

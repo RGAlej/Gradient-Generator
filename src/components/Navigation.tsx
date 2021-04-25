@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { navData, NavDataIdType, NavDataInterface } from '../data/navigationData';
+import {
+  navData,
+  NavDataIdType,
+  NavDataInterface,
+} from '../data/navigationData';
 
 import { media, setBorder, setFlex, setTransition } from '../styles/styles';
 import { useFunctionalContext } from '../contexts/functional.context';
@@ -21,13 +25,24 @@ const Navigation: React.FC = () => {
 
   useEffect(() => {
     if (prefix.includes('linear')) {
-      setNewNavData(navData.filter(item => item.id !== NavDataIdType.LINEAR && item.id !== NavDataIdType.POSITION));
+      setNewNavData(
+        navData.filter(
+          (item) =>
+            item.id !== NavDataIdType.LINEAR &&
+            item.id !== NavDataIdType.POSITION
+        )
+      );
     } else if (prefix.includes('radial')) {
-      setNewNavData(navData.filter(item => item.id !== NavDataIdType.RADIAL && item.id !== NavDataIdType.ANGLE));
+      setNewNavData(
+        navData.filter(
+          (item) =>
+            item.id !== NavDataIdType.RADIAL && item.id !== NavDataIdType.ANGLE
+        )
+      );
     }
   }, [prefix]);
 
-  const displayTooltip = (e: { target: any; }, tooltipText: string) => {
+  const displayTooltip = (e: { target: any }, tooltipText: string) => {
     const tempBtn = e.target.getBoundingClientRect();
     const center = (tempBtn.left + tempBtn.right) / 2;
     const bottom = tempBtn.bottom;
@@ -54,21 +69,25 @@ const Navigation: React.FC = () => {
   }, [location]);
 
   return (
-      <Wrapper>
-        {newNavData.map((item) => {
-          const Icon = item.icon;
-          return (
-              <li key={item.id}
-                  onMouseOver={(e) => displayTooltip(e, item.name)}
-                  onMouseOut={closeTooltip}
-                  onClick={() => handleNavActions!(item.id)}>
-                <Icon />
-              </li>
-          );
-        })}
-        <aside ref={container}
-               className={isShowed ? 'tooltip showed' : 'tooltip'}>{nameTooltip}</aside>
-      </Wrapper>
+    <Wrapper>
+      {newNavData.map((item) => {
+        const Icon = item.icon;
+        return (
+          <li
+            key={item.id}
+            onMouseOver={(e) => displayTooltip(e, item.name)}
+            onMouseOut={closeTooltip}
+            onClick={() => handleNavActions!(item.id)}>
+            <Icon />
+          </li>
+        );
+      })}
+      <aside
+        ref={container}
+        className={isShowed ? 'tooltip showed' : 'tooltip'}>
+        {nameTooltip}
+      </aside>
+    </Wrapper>
   );
 };
 
@@ -93,7 +112,7 @@ const Wrapper = styled.ul`
     `}
     svg {
       font-size: 2rem;
-      fill: ${props => props.theme.color3};
+      fill: ${(props) => props.theme.color3};
     }
   }
 
@@ -103,22 +122,21 @@ const Wrapper = styled.ul`
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 400;
-    letter-spacing: .1rem;
-    color: ${props => props.theme.color2};
+    letter-spacing: 0.1rem;
+    color: ${(props) => props.theme.color2};
     position: absolute;
     ${setBorder({ style: 'none' })};
     padding: 1rem;
-    background: ${props => props.theme.color3};
+    background: ${(props) => props.theme.color3};
     top: 4rem;
     transform: translateX(-50%);
-    opacity: .8;
+    opacity: 0.8;
     ${setTransition()};
   }
 
   .tooltip.showed {
     display: block;
   }
-}
 `;
 
 export default Navigation;

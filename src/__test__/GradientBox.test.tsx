@@ -1,4 +1,8 @@
-import { fireEvent, renderWithRouter, screen } from './utils/testing_library_utils';
+import {
+  fireEvent,
+  renderWithRouter,
+  screen,
+} from './utils/testing_library_utils';
 import { RouteModel } from '../models/ManagementState.model';
 
 import GradientBox from '../components/GradientBox';
@@ -44,5 +48,21 @@ describe('Box element', () => {
 
     expect(color1).toMatchSnapshot();
     expect(codeTextArea).toMatchSnapshot();
+  });
+
+  test('check trash status', async () => {
+    renderWithRouter(<GradientBox />, { route: RouteModel.GRADIENT });
+    const colorList = screen.getAllByTestId('color');
+    const color1 = colorList[0] as HTMLInputElement;
+
+    // trash should be hidden in the document
+    const trash = await screen.findByTestId('trash');
+    expect(trash).toHaveClass('trash');
+
+    fireEvent.drag(color1);
+
+    // trash should not be visible in the document if color list is less than three in length
+    const trashDragged = await screen.findByTestId('trash');
+    expect(trashDragged).not.toHaveClass('display');
   });
 });

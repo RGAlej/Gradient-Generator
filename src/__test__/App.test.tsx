@@ -1,4 +1,9 @@
-import { fireEvent, renderWithRouter, screen, waitFor } from './utils/testing_library_utils';
+import {
+  fireEvent,
+  renderWithRouter,
+  screen,
+  waitFor,
+} from './utils/testing_library_utils';
 import userEvent from '@testing-library/user-event';
 
 import { RouteModel } from '../models/ManagementState.model';
@@ -66,8 +71,34 @@ describe('App functionality', () => {
 
     // remove 3th color
     userEvent.dblClick(colorListUpdatedWithAddColor[2]);
-    const colorListUpdatedWithRemoveColor = await screen.findAllByTestId('color');
+    const colorListUpdatedWithRemoveColor = await screen.findAllByTestId(
+      'color'
+    );
     expect(colorListUpdatedWithRemoveColor).toHaveLength(2);
+  });
+
+  test('remove colors dragging', async () => {
+    renderWithRouter(<App />, { route: RouteModel.GRADIENT });
+    const colorList = screen.getAllByTestId('color');
+    const color1 = colorList[0] as HTMLInputElement;
+    expect(color1).toHaveAttribute('draggable', 'false');
+
+    // trash should be hidden in the document
+    const trash = await screen.findByTestId('trash');
+    expect(trash).toHaveClass('trash');
+
+    const navigation = screen.getAllByRole('listitem');
+    // make sure that navigation4 is the add color button
+    const addColorBtn = navigation[4];
+    userEvent.hover(addColorBtn);
+    const addColorTooltip = await screen.findByRole('complementary');
+    expect(addColorTooltip).toHaveTextContent('add color');
+
+    // add color
+    userEvent.click(addColorBtn);
+    const colorListUpdated = screen.getAllByTestId('color');
+    expect(colorListUpdated).toHaveLength(3);
+    expect(color1).toHaveAttribute('draggable', 'true');
   });
 
   test('check angle input functionality', async () => {
@@ -85,10 +116,9 @@ describe('App functionality', () => {
     userEvent.click(angleNavBtn);
     const anglePopupTitle = screen.getByRole('heading', {
       level: 3,
-      name: 'what is the angle which you want for your gradient?'
+      name: 'what is the angle which you want for your gradient?',
     });
     expect(anglePopupTitle).toBeInTheDocument();
-
 
     // check default value of angle input
     const input = await screen.findByRole('spinbutton');
@@ -99,7 +129,6 @@ describe('App functionality', () => {
 
     const codeTextArea = screen.getByRole('textbox');
     expect(codeTextArea).toHaveTextContent('34deg');
-
 
     // check that text area doesn't display a value higher than 360 degrees
     userEvent.clear(input);
@@ -120,11 +149,16 @@ describe('App functionality', () => {
     // display popup
     userEvent.click(copyNavBtn);
 
-    const popupTitle = screen.getByRole('heading', { level: 1, name: 'copied to clipboard!' });
+    const popupTitle = screen.getByRole('heading', {
+      level: 1,
+      name: 'copied to clipboard!',
+    });
     expect(popupTitle).toBeInTheDocument();
 
     // wait for a timeout of 3000ms
-    await waitFor(() => expect(popupTitle).not.toBeInTheDocument(), { timeout: 3000 });
+    await waitFor(() => expect(popupTitle).not.toBeInTheDocument(), {
+      timeout: 3000,
+    });
   });
 
   test('hint popup', async () => {
@@ -141,7 +175,10 @@ describe('App functionality', () => {
     // display popup
     userEvent.click(hintBtn);
 
-    const popupTitle = screen.getByRole('heading', { level: 3, name: 'Gradient Generator by AlejRG' });
+    const popupTitle = screen.getByRole('heading', {
+      level: 3,
+      name: 'Gradient Generator by AlejRG',
+    });
     expect(popupTitle).toBeInTheDocument();
 
     // close popup
@@ -174,7 +211,10 @@ describe('App functionality', () => {
     const colorListUpdated = await screen.findAllByTestId('color');
     expect(colorListUpdated).toHaveLength(8);
 
-    const colorLimitPopupTitle = screen.getByRole('heading', { level: 3, name: '8 colors are no enough?' });
+    const colorLimitPopupTitle = screen.getByRole('heading', {
+      level: 3,
+      name: '8 colors are no enough?',
+    });
     expect(colorLimitPopupTitle).toBeInTheDocument();
 
     // close popup
@@ -223,7 +263,10 @@ describe('App functionality', () => {
     // display popup
     userEvent.click(lengthBtn);
 
-    const popupTitle = screen.getByRole('heading', { level: 3, name: 'what length do you want for each color?' });
+    const popupTitle = screen.getByRole('heading', {
+      level: 3,
+      name: 'what length do you want for each color?',
+    });
     expect(popupTitle).toBeInTheDocument();
 
     // check if there are four inputs with two colors
@@ -285,7 +328,7 @@ describe('App functionality', () => {
     userEvent.click(positionBtn);
     const title = screen.getByRole('heading', {
       level: 3,
-      name: 'what is the position which you want for your gradient?'
+      name: 'what is the position which you want for your gradient?',
     });
     expect(title).toBeInTheDocument();
 
@@ -340,23 +383,32 @@ describe('App functionality', () => {
     userEvent.click(angleBtn);
     const anglePopup = screen.getByRole('heading', {
       level: 3,
-      name: 'what is the angle which you want for your gradient?'
+      name: 'what is the angle which you want for your gradient?',
     });
     expect(anglePopup).toBeInTheDocument();
 
     // display another popup and check previous popup is missing
     userEvent.click(lengthBtn);
-    const lengthPopup = screen.getByRole('heading', { level: 3, name: 'what length do you want for each color?' });
+    const lengthPopup = screen.getByRole('heading', {
+      level: 3,
+      name: 'what length do you want for each color?',
+    });
     expect(anglePopup).not.toBeInTheDocument();
     expect(lengthPopup).toBeInTheDocument();
 
     userEvent.click(copyBtn);
-    const copyPopup = screen.getByRole('heading', { level: 1, name: 'copied to clipboard!' });
+    const copyPopup = screen.getByRole('heading', {
+      level: 1,
+      name: 'copied to clipboard!',
+    });
     expect(lengthPopup).not.toBeInTheDocument();
     expect(copyPopup).toBeInTheDocument();
 
     userEvent.click(hintBtn);
-    const hintPopup = screen.getByRole('heading', { level: 3, name: 'Gradient Generator by AlejRG' });
+    const hintPopup = screen.getByRole('heading', {
+      level: 3,
+      name: 'Gradient Generator by AlejRG',
+    });
     expect(hintPopup).toBeInTheDocument();
 
     userEvent.click(addBtn);
@@ -366,7 +418,10 @@ describe('App functionality', () => {
     const colorList = screen.getAllByTestId('color');
     expect(colorList).toHaveLength(8);
     expect(hintPopup).not.toBeInTheDocument();
-    const limitColorsPopup = screen.getByRole('heading', { level: 3, name: '8 colors are no enough?' });
+    const limitColorsPopup = screen.getByRole('heading', {
+      level: 3,
+      name: '8 colors are no enough?',
+    });
     expect(limitColorsPopup).toBeInTheDocument();
 
     userEvent.click(radialBtn);
@@ -375,13 +430,16 @@ describe('App functionality', () => {
     const hintBtn2 = navigationUpdated[5];
 
     userEvent.click(hintBtn2);
-    const hintPopup2 = screen.getByRole('heading', { level: 3, name: 'Gradient Generator by AlejRG' });
+    const hintPopup2 = screen.getByRole('heading', {
+      level: 3,
+      name: 'Gradient Generator by AlejRG',
+    });
     expect(hintPopup2).toBeInTheDocument();
 
     userEvent.click(positionBtn);
     const positionPopup = screen.getByRole('heading', {
       level: 3,
-      name: 'what is the position which you want for your gradient?'
+      name: 'what is the position which you want for your gradient?',
     });
     expect(positionPopup).toBeInTheDocument();
   });
