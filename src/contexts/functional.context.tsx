@@ -51,7 +51,10 @@ const FunctionalContextProvider = ({ children }: Props) => {
     });
   };
 
-  const dragStartHandler = (event:React.DragEvent<HTMLInputElement>, index: number) => {
+  const dragStartHandler = (
+    event: React.DragEvent<HTMLInputElement>,
+    index: number
+  ) => {
     if (state.colors.length > 2 && event.dataTransfer !== undefined) {
       setShowTrash(true);
       event.dataTransfer!.setData('text/plain', index.toString());
@@ -85,11 +88,16 @@ const FunctionalContextProvider = ({ children }: Props) => {
     removeColor(+index);
   };
 
-  const touchMoveHandler = (event: React.TouchEvent<HTMLElement>, index: number) => {
+  const touchMoveHandler = (
+    event: React.TouchEvent<HTMLElement>,
+    index: number
+  ) => {
     const element = event.target as HTMLElement;
-    element.classList.add('removing');
-    setTimeout(() => removeColor(index), 1000);
-  }
+    if (state.colors.length > 2) {
+      element.classList.add('removing');
+      setTimeout(() => removeColor(index), 1000);
+    }
+  };
 
   const removeColor = (index: number) => {
     setShowTrash(false);
