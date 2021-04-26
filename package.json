@@ -1,7 +1,7 @@
 {
   "name": "gradient_generator_by_alej",
   "author": "Alejandro RG",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
