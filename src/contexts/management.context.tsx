@@ -11,7 +11,9 @@ const initialState: ManagementStateModel = {
   theme: lightTheme,
 };
 
-const ManagementContext = React.createContext<ManagementStateModel>(initialState);
+const ManagementContext = React.createContext<ManagementStateModel>(
+  initialState
+);
 
 interface Props {
   children: JSX.Element;
@@ -23,13 +25,20 @@ const ManagementContextProvider = ({ children }: Props) => {
 
   const toggleTheme = (type: 'dark' | 'light') => {
     if (type === 'dark') {
-      return dispatch({ type: ActionModel.TOGGLE_THEME, payload: { theme: darkTheme, dark: true } });
+      return dispatch({
+        type: ActionModel.TOGGLE_THEME,
+        payload: { theme: darkTheme, dark: true },
+      });
     } else if (type === 'light') {
-      return dispatch({ type: ActionModel.TOGGLE_THEME, payload: { theme: lightTheme, dark: false } });
+      return dispatch({
+        type: ActionModel.TOGGLE_THEME,
+        payload: { theme: lightTheme, dark: false },
+      });
     }
   };
 
-  useEffect(() => { // detect device dark theme on load
+  useEffect(() => {
+    // detect device dark theme on load
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       toggleTheme('dark');
     }
@@ -44,15 +53,14 @@ const ManagementContextProvider = ({ children }: Props) => {
   });
 
   return (
-      <ManagementContext.Provider
-          value={{
-            ...state,
-            width,
-            toggleTheme
-          }}
-      >
-        {children}
-      </ManagementContext.Provider>
+    <ManagementContext.Provider
+      value={{
+        ...state,
+        width,
+        toggleTheme,
+      }}>
+      {children}
+    </ManagementContext.Provider>
   );
 };
 

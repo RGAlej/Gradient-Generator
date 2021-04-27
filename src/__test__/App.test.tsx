@@ -44,9 +44,8 @@ describe('App base functionality', () => {
   test('render App at Gradient Route and check Gradient Box, Header, Navigation and Toggle theme components', async () => {
     renderWithRouter(<App />, { route: RouteModel.GRADIENT });
 
-    // width larger than phone width
-    const title = screen.getByRole('link', { name: 'gradient generator' });
-    expect(title).toBeInTheDocument();
+    const HomeIcon = screen.getByTestId('home-icon');
+    expect(HomeIcon).toBeInTheDocument();
 
     const moon = screen.getByTestId('moon');
     // check light theme

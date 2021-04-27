@@ -5,12 +5,16 @@ import { RouteModel } from '../models/ManagementState.model';
 import Header from '../components/Header';
 
 describe('Header Element', () => {
-  test('check light theme and toggle theme to dark theme', async () => {
-    renderWithRouter(<Header />, { route: RouteModel.GRADIENT });
-
+  test('title in home route', () => {
+    renderWithRouter(<Header />, { route: RouteModel.HOME });
+    
     // width larger than phone width
     const title = screen.getByRole('link', { name: 'gradient generator' });
     expect(title).toBeInTheDocument();
+  })
+
+  test('check light theme and toggle theme to dark theme', async () => {
+    renderWithRouter(<Header />, { route: RouteModel.GRADIENT });
 
     const moon = screen.getByTestId('moon');
     // check light theme

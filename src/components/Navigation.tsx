@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { isBrowser } from 'react-device-detect';
 import styled from 'styled-components';
+import { HiMenu } from 'react-icons/hi';
 
 import {
   navData,
@@ -17,11 +19,18 @@ interface LocationModel {
 
 const Navigation: React.FC = () => {
   const { prefix, handleNavActions } = useFunctionalContext();
+
+  const [isMobileNavActive, setIsMobileNavActive] = useState<boolean>(false); // only for navbar on phone devices
   const [nameTooltip, setNameTooltip] = useState<string>('');
   const [location, setLocation] = useState<LocationModel>({});
   const [isShowed, setIsShowed] = useState<boolean>(false);
   const [newNavData, setNewNavData] = useState<NavDataInterface[]>(navData);
   const container = useRef<null | HTMLElement>(null);
+
+  const hiddeMobileNav = (id: NavDataIdType) => {
+    setIsMobileNavActive(false);
+    handleNavActions!(id);
+  };
 
   useEffect(() => {
     if (prefix.includes('linear')) {
@@ -68,7 +77,7 @@ const Navigation: React.FC = () => {
     }
   }, [location]);
 
-  return (
+  return isBrowser ? (
     <Wrapper>
       {newNavData.map((item) => {
         const Icon = item.icon;
@@ -88,17 +97,86 @@ const Navigation: React.FC = () => {
         {nameTooltip}
       </aside>
     </Wrapper>
+  ) : (
+    <MobileWrapper>
+      <HiMenu onClick={() => setIsMobileNavActive(!isMobileNavActive)} />
+      <ul className={isMobileNavActive ? 'nav-links show-links' : 'nav-links'}>
+        {newNavData.map((item) => {
+          const Icon = item.icon;
+          return (
+            <li
+              key={item.id}
+              onMouseOver={(e) => displayTooltip(e, item.name)}
+              onMouseOut={closeTooltip}
+              onClick={() => hiddeMobileNav(item.id)}>
+              <Icon />
+              {item.name}
+            </li>
+          );
+        })}
+      </ul>
+    </MobileWrapper>
   );
 };
 
+const MobileWrapper = styled.section`
+  position: relative;
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+
+  & > svg {
+    grid-column: 1 / span 1;
+    height: 4rem;
+    width: 4rem;
+    fill: ${(props) => props.theme.color3};
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 0;
+    grid-column: 2 / span 1;
+    justify-self: center;
+    width: 85%;
+    max-width: 50rem;
+    ${setFlex({ x: 'space-evenly' })};
+    flex-direction: column;
+    height: 0;
+    overflow: hidden;
+    ${setTransition()};
+
+    li {
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 1.75rem;
+      color: ${(props) => props.theme.color1};
+      width: 90%;
+      padding: 1rem;
+      ${setBorder({ style: 'none' })};
+      display: grid;
+      grid-template-columns: 0.25fr 1fr;
+      place-items: center;
+      box-shadow: 0.15rem 0.15rem 0.75rem ${(props) => props.theme.color3};
+      background: ${(props) => props.theme.color2};
+
+      svg {
+        font-size: 2rem;
+        fill: ${(props) => props.theme.color1};
+      }
+    }
+  }
+
+  .show-links {
+    height: 40rem;
+  }
+`;
+
 const Wrapper = styled.ul`
   grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
   ${setFlex({ x: 'space-around' })};
 
-  ${media.phone`
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 1;
-  `}
   & > li,
   & > a {
     cursor: pointer;
