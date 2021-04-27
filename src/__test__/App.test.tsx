@@ -10,16 +10,29 @@ import { RouteModel } from '../models/ManagementState.model';
 import App from '../App';
 
 describe('App base functionality', () => {
-  test('render App at Home Route and check Title, Toggle Theme and Home components', () => {
+  test('render App at Home Route and check Title, Toggle Theme and Home components', async () => {
     renderWithRouter(<App />, { route: RouteModel.HOME });
 
+    // width larger than phone width
     const title = screen.getByRole('link', { name: 'gradient generator' });
     expect(title).toBeInTheDocument();
 
-    const sun = screen.getByTestId('sun');
     const moon = screen.getByTestId('moon');
-    expect(sun).toBeInTheDocument();
+    // check light theme
     expect(moon).toBeInTheDocument();
+
+    // check toggle to dark theme
+    userEvent.click(moon);
+
+    const sun = await screen.findByTestId('sun');
+    expect(sun).toBeInTheDocument();
+    expect(moon).not.toBeInTheDocument();
+
+    // check toggle to light theme
+    userEvent.click(sun);
+    const newMoon = await screen.findByTestId('moon');
+    expect(newMoon).toBeInTheDocument();
+    expect(sun).not.toBeInTheDocument();
 
     const startBtn = screen.getByRole('link', { name: 'start' });
     expect(startBtn).toBeInTheDocument();
@@ -28,16 +41,29 @@ describe('App base functionality', () => {
     expect(window.location.pathname).toBe(RouteModel.GRADIENT);
   });
 
-  test('render App at Gradient Route and check Gradient Box, Header, Navigation and Toggle theme components', () => {
+  test('render App at Gradient Route and check Gradient Box, Header, Navigation and Toggle theme components', async () => {
     renderWithRouter(<App />, { route: RouteModel.GRADIENT });
 
+    // width larger than phone width
     const title = screen.getByRole('link', { name: 'gradient generator' });
     expect(title).toBeInTheDocument();
 
-    const sun = screen.getByTestId('sun');
     const moon = screen.getByTestId('moon');
-    expect(sun).toBeInTheDocument();
+    // check light theme
     expect(moon).toBeInTheDocument();
+
+    // check toggle to dark theme
+    userEvent.click(moon);
+
+    const sun = await screen.findByTestId('sun');
+    expect(sun).toBeInTheDocument();
+    expect(moon).not.toBeInTheDocument();
+
+    // check toggle to light theme
+    userEvent.click(sun);
+    const newMoon = await screen.findByTestId('moon');
+    expect(newMoon).toBeInTheDocument();
+    expect(sun).not.toBeInTheDocument();
 
     const list = screen.getByRole('list');
     const navigation = screen.getAllByRole('listitem');

@@ -5,29 +5,23 @@ import { RouteModel } from '../models/ManagementState.model';
 import Header from '../components/Header';
 
 describe('Header Element', () => {
-  test('check light theme and toggle theme to dark theme', () => {
+  test('check light theme and toggle theme to dark theme', async () => {
     renderWithRouter(<Header />, { route: RouteModel.GRADIENT });
 
     // width larger than phone width
     const title = screen.getByRole('link', { name: 'gradient generator' });
     expect(title).toBeInTheDocument();
 
-    const sun = screen.getByTestId('sun');
     const moon = screen.getByTestId('moon');
     // check light theme
-    expect(sun).toHaveClass('active');
-    expect(moon).toHaveClass('no-active');
+    expect(moon).toBeInTheDocument();
 
-    const toggleRight = screen.queryByTestId('toggle-right');
-    const toggleLeft = screen.getByTestId('toggle-left');
-    expect(toggleRight).not.toBeInTheDocument();
-    expect(toggleLeft).toBeInTheDocument();
-
-    // check toggle to dark them
+    // check toggle to dark theme
     userEvent.click(moon);
-    expect(sun).toHaveClass('no-active');
-    expect(moon).toHaveClass('active');
-    expect(screen.queryByTestId('toggle-left')).not.toBeInTheDocument();
+
+    const sun = await screen.findByTestId('sun');
+    expect(sun).toBeInTheDocument();
+    expect(moon).not.toBeInTheDocument();
   });
 
   test('check navigation', async () => {

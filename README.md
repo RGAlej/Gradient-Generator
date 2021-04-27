@@ -23,6 +23,7 @@
 ![position](./examples/position.png)
 
 ---
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6217f7bf-fabb-4d34-8c2e-b7540ade1987/deploy-status)](https://app.netlify.com/sites/gradient-generator-by-alej/deploys)
 
 ## Upcoming
 
